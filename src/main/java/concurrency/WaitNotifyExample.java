@@ -1,5 +1,27 @@
 package concurrency;
 
+/**
+ * Before start producer: producerThread NEW
+ * Before start consumer: consumerThread NEW
+ * After start producer: producerThread RUNNABLE
+ * After start consumer: consumerThread RUNNABLE
+ * Before lock in consumer: consumerThread RUNNABLE
+ * Before join producer: producerThread RUNNABLE
+ * Before lock in producer: producerThread RUNNABLE
+ * Before join producer: consumerThread TIMED_WAITING
+ * Synchronized in producer: producerThread RUNNABLE
+ * Producer is waiting...
+ * After sleep in consumer: consumerThread RUNNABLE
+ * Synchronized in consumer: consumerThread RUNNABLE
+ * Consumer is notifying...
+ * After notify in consumerconsumerThread RUNNABLE
+ * After wait in producer: producerThread RUNNABLE
+ * Producer resumed
+ * After join producer: producerThread TERMINATED
+ * After join producer: consumerThread TERMINATED
+ * After join consumer: producerThread TERMINATED
+ * After join consumer: consumerThread TERMINATED
+ */
 public class WaitNotifyExample {
     private final Object lock = new Object();
 

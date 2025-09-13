@@ -7,9 +7,9 @@ public class BlockingQueueExample {
 
     /**
      * Producer пытается добавить элемент в очередь.
-     * Если очередь полна → ждет, пока consumer заберёт элемент.
+     * Если очередь полна -> ждет, пока consumer заберёт элемент.
      * Consumer пытается забрать элемент.
-     * Если очередь пуста → ждет, пока producer положит элемент.
+     * Если очередь пуста -> ждет, пока producer положит элемент.
      */
     public static void res() {
         BlockingQueue<Integer> queue = new ArrayBlockingQueue<>(3);

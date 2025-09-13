@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DeadLock_2 {
 
-    private static final Object resource_a = new Object();
-    private static final Object resource_b = new Object();
+    private static final Object RESOURCE_A = new Object();
+    private static final Object RESOURCE_B = new Object();
 
     public static void res() {
 //        problem();
@@ -20,31 +20,31 @@ public class DeadLock_2 {
      */
     private static void resolve1() {
         Thread t1 = new Thread(() -> {
-            synchronized (resource_a) {
-                System.out.println("Thread 1: Holding resource_a...");
+            synchronized (RESOURCE_A) {
+                System.out.println("Thread 1: Holding RESOURCE_A...");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Thread 1: Waiting for resource_b...");
-                synchronized (resource_b) {
-                    System.out.println("Thread 1: Acquired resource_b!");
+                System.out.println("Thread 1: Waiting for RESOURCE_B...");
+                synchronized (RESOURCE_B) {
+                    System.out.println("Thread 1: Acquired RESOURCE_B!");
                 }
             }
         });
 
         Thread t2 = new Thread(() -> {
-            synchronized (resource_a) {  // Изменили порядок на resource_a -> resource_b
-                System.out.println("Thread 2: Holding resource_a...");
+            synchronized (RESOURCE_A) {  // Изменили порядок на resource_a -> resource_b
+                System.out.println("Thread 2: Holding RESOURCE_A...");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("Thread 2: Waiting for resource_b...");
-                synchronized (resource_b) {
-                    System.out.println("Thread 2: Acquired resource_b!");
+                System.out.println("Thread 2: Waiting for RESOURCE_B...");
+                synchronized (RESOURCE_B) {
+                    System.out.println("Thread 2: Acquired RESOURCE_B!");
                 }
             }
         });
@@ -54,28 +54,29 @@ public class DeadLock_2 {
     }
 
     /**
-     * Добавить таймаут
+     * Добавить таймаут и одинаковый порядок
      */
-    private static final Lock reentrantLock1 = new ReentrantLock();
-    private static final Lock reentrantLock2 = new ReentrantLock();
+    private static final Lock LOCK_1 = new ReentrantLock();
+    private static final Lock LOCK_2 = new ReentrantLock();
+
     private static void resolve2() {
         Thread t1 = new Thread(() -> {
             try {
-                if (reentrantLock1.tryLock(1000, TimeUnit.MILLISECONDS)) {
+                if (LOCK_1.tryLock(1000, TimeUnit.MILLISECONDS)) {
                     try {
                         System.out.println("Thread 1: Acquired lock1");
                         Thread.sleep(50);
-                        if (reentrantLock2.tryLock(1000, TimeUnit.MILLISECONDS)) {
+                        if (LOCK_2.tryLock(1000, TimeUnit.MILLISECONDS)) {
                             try {
                                 System.out.println("Thread 1: Acquired lock2");
                             } finally {
-                                reentrantLock2.unlock();
+                                LOCK_2.unlock();
                             }
                         } else {
                             System.out.println("Thread 1: Could not acquire lock2, releasing lock1");
                         }
                     } finally {
-                        reentrantLock1.unlock();
+                        LOCK_1.unlock();
                     }
                 } else {
                     System.out.println("Thread 1: Could not acquire lock1");
@@ -87,21 +88,21 @@ public class DeadLock_2 {
 
         Thread t2 = new Thread(() -> {
             try {
-                if (reentrantLock2.tryLock(1000, TimeUnit.MILLISECONDS)) {
+                if (LOCK_1.tryLock(1000, TimeUnit.MILLISECONDS)) {
                     try {
                         System.out.println("Thread 2: Acquired lock2");
                         Thread.sleep(50);
-                        if (reentrantLock1.tryLock(1000, TimeUnit.MILLISECONDS)) {
+                        if (LOCK_2.tryLock(1000, TimeUnit.MILLISECONDS)) {
                             try {
                                 System.out.println("Thread 2: Acquired lock1");
                             } finally {
-                                reentrantLock1.unlock();
+                                LOCK_2.unlock();
                             }
                         } else {
                             System.out.println("Thread 2: Could not acquire lock1, releasing lock2");
                         }
                     } finally {
-                        reentrantLock2.unlock();
+                        LOCK_1.unlock();
                     }
                 } else {
                     System.out.println("Thread 2: Could not acquire lock2");
@@ -117,27 +118,31 @@ public class DeadLock_2 {
 
     private static void problem() {
         Runnable task1 = () -> {
-            synchronized (resource_a) {
+            synchronized (RESOURCE_A) {
+                System.out.println("Thread 1: Holding RESOURCE_A...");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (resource_b) {
-                    System.out.println("Task 1 completed");
+                System.out.println("Thread 1: Waiting for RESOURCE_B...");
+                synchronized (RESOURCE_B) {
+                    System.out.println("Thread 1: Acquired RESOURCE_B!");
                 }
             }
         };
 
         Runnable task2 = () -> {
-            synchronized (resource_b) {
+            synchronized (RESOURCE_B) {
+                System.out.println("Thread 2: Holding RESOURCE_B...");
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                synchronized (resource_a) {
-                    System.out.println("Task 2 completed");
+                System.out.println("Thread 2: Waiting for RESOURCE_A...");
+                synchronized (RESOURCE_A) {
+                    System.out.println("Thread 2: Acquired RESOURCE_A!");
                 }
             }
         };

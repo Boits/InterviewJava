@@ -39,11 +39,10 @@ public class ResourceStarvation_1 {
         }
     }
 
-    private static final Lock lock = new ReentrantLock();
-
     /**
      * Использование таймаутов, чтобы блоки не блокировались постоянно
      */
+    private static final Lock lock = new ReentrantLock();
     private static void resolve2() {
         Runnable task = () -> {
             try {

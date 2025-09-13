@@ -1,12 +1,13 @@
 package concurrency;
 
 public class VolatileExample {
-    private static volatile String sharedString = "Initial";
 
     public static void res() {
         resolution1();
 //        resolution2();
     }
+
+    private static volatile String sharedString = "Initial";
 
     private static void resolution2() {
         Runnable task1 = () -> {

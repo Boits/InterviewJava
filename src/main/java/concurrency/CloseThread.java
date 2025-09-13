@@ -39,6 +39,7 @@ public class CloseThread {
                     Thread.sleep(1000); // Имитируем работу
                 }
             } catch (InterruptedException e) {
+                // Cюда попадает, если прервали во время sleep
                 System.out.println("Поток прерван");
                 System.out.println("isInterrupted = " + Thread.currentThread().isInterrupted()); //false
                 Thread.currentThread().interrupt(); // Восстановление прерывания

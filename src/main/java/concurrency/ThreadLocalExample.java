@@ -10,12 +10,14 @@ public class ThreadLocalExample {
         Thread thread1 = new Thread(() -> {
             threadLocalValue.set(100);
             System.out.println("Thread 1 value: " + threadLocalValue.get());  // 100
+            threadLocalValue.remove();
         });
 
         // Поток 2
         Thread thread2 = new Thread(() -> {
             threadLocalValue.set(200);
             System.out.println("Thread 2 value: " + threadLocalValue.get());  // 200
+            threadLocalValue.remove();
         });
 
         thread1.start();

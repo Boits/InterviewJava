@@ -13,7 +13,7 @@ public class InterviewJavaApp {
 
     public static void main(String[] args) {
 //        Java Core
-        AppJavaCore.mainJavaCore();
+//        AppJavaCore.mainJavaCore();
 
 //        Collections
 //        AppCollections.mainCollections();
@@ -26,7 +26,7 @@ public class InterviewJavaApp {
 //         jdk();
 
 //        Concurrency
-//        AppConcurrency.mainConcurrency();
+        AppConcurrency.mainConcurrency();
 
 //        Tasks from Leet Code
 //        AppTasksLeetCode.mainTasksLeetCode();
