@@ -355,4 +355,10 @@ public class MyStreams {
             return name + " (" + age + ")";
         }
     }
+
+    public List<String> filterStartingWithAaa(List<String> src) {
+        return src.stream()
+                .filter(el -> el.startsWith("aaa"))
+                .toList();
+    }
 }
